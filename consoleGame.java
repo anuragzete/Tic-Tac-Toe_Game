@@ -1,4 +1,4 @@
-package Projects.tic_tac_toe;
+package tic_tac_toe;
 
 import java.util.*;
 

@@ -1,37 +1,31 @@
-package Projects.tic_tac_toe;
+package tic_tac_toe;
 
 import java.util.*;
 
 public class gameBot {
-    gameLogic logic;
-    static boolean botPlayed = false;
-
-    gameBot(gameLogic logic) {
-        this.logic = logic;
-    }
-
     //easy mode
-    public void easyMode() {
+    public static void easyMode() {
         Random rand = new Random();
-        while (!botPlayed) {
+        while (!normalGameLogic.botPlayed) {
             int row = rand.nextInt(3);
             int col = rand.nextInt(3);
-            if (logic.board[row][col].getText() != "") {
-                logic.turns++;
-                logic.board[row][col].setText(logic.currentPlayer);
-                botPlayed = true;
-                logic.checkWinner();
-                if (!logic.gameOver) {
-                    logic.currentPlayer = logic.currentPlayer.equals(logic.playerX) ? logic.playerO : logic.playerX;
-                    logic.label.setText(logic.currentPlayer + "'s turn");
+            if (normalGameLogic.board[row][col].getText() != "") {
+                normalGameLogic.turns++;
+                normalGameLogic.board[row][col].setText(normalGameLogic.currentPlayer);
+                normalGameLogic.botPlayed = true;
+                normalGameLogic.checkWinner();
+                if (!normalGameLogic.gameOver) {
+                    normalGameLogic.currentPlayer = normalGameLogic.currentPlayer.equals(normalGameLogic.playerX) ? normalGameLogic.playerO : normalGameLogic.playerX;
+                    normalGameLogic.label.setText(normalGameLogic.currentPlayer + "'s turn");
                 }
             }
         }
     }
 
+
     //hard mode
-    /*
-    void bestmove(){
+/*
+void bestmove(){
         bestscore = -1000;
         move = -1,-1;
 
@@ -89,4 +83,6 @@ public class gameBot {
     }
 */
 }
+
+
 

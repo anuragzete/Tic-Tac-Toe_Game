@@ -1,64 +1,19 @@
-package Projects.tic_tac_toe;
+package tic_tac_toe;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 
-public class gameLogic extends JPanel {
+public class normalGameLogic extends classicGamePanel {
 
-    static final int WIDTH = 600;
-    static final int HEIGHT = 670;
     static boolean gameOver = false;
     static int turns = 0;
-    String playerX = "X";
-    String playerO = "O";
-    String currentPlayer = "X";
-    JLabel label = new JLabel();
-    JPanel boardPanel = new JPanel();
-    JButton[][] board = new JButton[3][3];
-    gameBot bot;
+    static String playerX = "X";
+    static String playerO = "O";
+    static String currentPlayer = homePanel.currentPlayer;
+    static JLabel label = ticTacToe.nameLabel;
+    static boolean botPlayed = true;
 
-    gameLogic() {
-        bot = new gameBot(this);
-        this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-        this.setBackground(new Color(28, 28, 28));
-        this.setFocusable(true);
-        this.setLayout(new BorderLayout());
-
-        label.setBackground(new Color(28, 28, 28));
-        label.setForeground(Color.white);
-        label.setHorizontalAlignment(JLabel.CENTER);
-        label.setText("Tic Tac Toe");
-        label.setPreferredSize(new Dimension(WIDTH, (HEIGHT - WIDTH)));
-        label.setFont(new Font("Arial", Font.BOLD, 30));
-        label.setOpaque(true);
-        boardPanel.setLayout(new GridLayout(3, 3));
-        this.add(label, BorderLayout.NORTH);
-        this.add(boardPanel);
-
-
-        for (int r = 0; r < 3; r++) {
-            for (int c = 0; c < 3; c++) {
-                JButton cell = new JButton();
-                board[r][c] = cell;
-                boardPanel.add(cell);
-                cell.setBackground(new Color(32, 32, 32));
-                cell.setForeground(Color.white);
-                cell.setFont(new Font("Arial", Font.BOLD, 120));
-
-                cell.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        JButton cell = (JButton) e.getSource();
-                        gameStarted(cell);
-                    }
-                });
-            }
-        }
-    }
-
-
-    public void gameStarted(JButton cell) {
+    public static void gameStarted(JButton cell) {
         if (gameOver) {
             return;
         }
@@ -69,13 +24,20 @@ public class gameLogic extends JPanel {
             if (!gameOver) {
                 currentPlayer = currentPlayer.equals(playerX) ? playerO : playerX;
                 label.setText(currentPlayer + "'s turn");
-                bot.easyMode();
+                if (!homePanel.isPlayer) {
+                    if (homePanel.isEasy) {
+                        botPlayed = !botPlayed;
+                        gameBot.easyMode();
+                    } else {
+                        //ai integration
+                    }
+                }
             }
         }
     }
 
 
-    public String checkWinner() {
+    public static String checkWinner() {
         //horizontal check
         for (int r = 0; r < 3; r++) {
             if (board[r][0].getText().isEmpty()) continue;
@@ -128,13 +90,11 @@ public class gameLogic extends JPanel {
         return currentPlayer;
     }
 
-    public void setWinner(JButton cell) {
+    public static void setWinner(JButton cell) {
         cell.setBackground(Color.gray);
         cell.setForeground(Color.green);
         gameOver = true;
         label.setText(currentPlayer + " is Winner!");
+        //new gameEndPanel();
     }
 }
-
-
-

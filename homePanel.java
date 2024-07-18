@@ -1,108 +1,147 @@
-package Projects.tic_tac_toe;
+package tic_tac_toe;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
 public class homePanel extends JPanel {
+    static int clickCount = 1;
+    static boolean isClassic;
+    static boolean isEasy;
+    static boolean isPlayer;
+    static boolean isNormal = true;
+    static String currentPlayer = "X";
 
-    static final int WIDTH = 600;
-    static final int HEIGHT = 670;
-    static boolean isselectIncomp = true;
-    static int selectSteps = 0;
-    boolean isClassic;
-    boolean isEasy;
-    boolean isPlayerMode;
-
-    JLabel nameLabel = new JLabel();
-    JLabel optionLabel = new JLabel();
-    JButton fstButton = new JButton();
-    JButton secButton = new JButton();
-    JPanel containerPanel = new JPanel();
-    JPanel buttonPanel = new JPanel();
-    JPanel inGamePanel = new JPanel();
+    JLabel label = new JLabel();
+    JButton btn1 = new JButton();
+    JButton btn2 = new JButton();
+    Container buttonHolder = new Container();
     GridBagConstraints gbc = new GridBagConstraints();
 
     homePanel() {
-        this.setPreferredSize(new Dimension(WIDTH, HEIGHT));
-        this.setBackground(new Color(26, 26, 26));
-        this.setFocusable(true);
+        this.setPreferredSize(new Dimension(ticTacToe.WIDTH, (ticTacToe.HEIGHT - 70)));
+        this.setBackground(new Color(25, 25, 25));
         this.setLayout(new BorderLayout());
 
-        nameLabel.setBackground(new Color(28, 28, 28));
-        nameLabel.setForeground(Color.green);
-        nameLabel.setHorizontalAlignment(JLabel.CENTER);
-        nameLabel.setText("Tic Tac Toe");
-        nameLabel.setPreferredSize(new Dimension(WIDTH, (HEIGHT - WIDTH)));
-        nameLabel.setFont(new Font("Arial", Font.BOLD, 30));
-        nameLabel.setOpaque(true);
-        optionLabel.setBackground(new Color(26,26,26));
-        optionLabel.setForeground(Color.white);
-        optionLabel.setHorizontalAlignment(JLabel.CENTER);
-        optionLabel.setText("Select Game Type");
-        optionLabel.setPreferredSize(new Dimension(WIDTH, 150));
-        optionLabel.setFont(new Font("Arial", Font.BOLD, 40));
-        optionLabel.setOpaque(true);
+        label.setForeground(Color.white);
+        label.setFont(new Font("Arial", Font.BOLD, 50));
+        label.setPreferredSize(new Dimension(ticTacToe.WIDTH, 150));
+        label.setText("Select the type");
+        label.setHorizontalAlignment(SwingConstants.CENTER);
 
-        containerPanel.setLayout(new BorderLayout());
-        containerPanel.add(nameLabel,BorderLayout.NORTH);
-        containerPanel.add(optionLabel);
 
-        while (isselectIncomp){
+        btn1.setBackground(new Color(32, 32, 32));
+        btn2.setBackground(new Color(32, 32, 32));
+        btn1.setPreferredSize(new Dimension(150, 100));
+        btn2.setPreferredSize(new Dimension(150, 100));
+        btn1.setFont(new Font("Arial", Font.BOLD, 25));
+        btn2.setFont(new Font("Arial", Font.BOLD, 25));
+        btn1.setForeground(Color.white);
+        btn2.setForeground(Color.white);
+        btn1.setText("Classic");
+        btn2.setText("Ultimate");
 
-            fstButton.setBackground(new Color(32,32,32));
-            secButton.setBackground(new Color(32,32,32));
-            fstButton.setPreferredSize(new Dimension(200,125));
-            secButton.setPreferredSize(new Dimension(200,125));
-            fstButton.setFont(new Font("Arial", Font.BOLD, 30));
-            secButton.setFont(new Font("Arial", Font.BOLD, 30));
-            fstButton.setForeground(Color.white);
-            secButton.setForeground(Color.white);
-            fstButton.setText("Classic");
-            secButton.setText("Ultimate");
+        buttonHolder.setBackground(new Color(26, 26, 26));
+        buttonHolder.setLayout(new GridBagLayout());
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        gbc.insets = new Insets(0, 0, 50, 0);
+        buttonHolder.add(btn1, gbc);
+        gbc.gridy = 1;
+        gbc.insets = new Insets(0, 0, 70, 0);
+        buttonHolder.add(btn2, gbc);
 
-            buttonPanel.setBackground(new Color(26,26,26));
-            buttonPanel.setLayout(new GridBagLayout());
-            gbc.gridx = 0;
-            gbc.gridy = 0;
-            gbc.insets = new Insets(0, 0, 50, 0);
-            buttonPanel.add(fstButton, gbc);
-            gbc.gridy = 1;
-            gbc.insets = new Insets(0, 0, 130, 0);
-            buttonPanel.add(secButton, gbc);
+        this.add(label, BorderLayout.NORTH);
+        this.add(buttonHolder, BorderLayout.CENTER);
 
-            this.add(containerPanel, BorderLayout.NORTH);
-            this.add(buttonPanel, BorderLayout.CENTER);
-
-            fstButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    isselectIncomp = false;
-                    new gameLogic();
+        btn1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                switch (clickCount) {
+                    case 1:
+                        isClassic = true;
+                        label.setText("Select the Opponent");
+                        btn1.setText("Player");
+                        btn2.setText("Computer");
+                        clickCount++;
+                        break;
+                    case 2:
+                        isPlayer = true;
+                        label.setText("Select Game Mode");
+                        btn1.setText("Normal");
+                        btn2.setText("Infinite");
+                        clickCount++;
+                        break;
+                    case 3:
+                        isNormal = true;
+                        isEasy = true;
+                        playerType();
+                        clickCount++;
+                        break;
+                    case 4:
+                        currentPlayer = "X";
+                        startGame();
+                        break;
                 }
-            });
-        }
-    }
+            }
+        });
 
-    public void gameType(JButton but){
-
-    }
-
-    public void gameMode(){
-        optionLabel.setText("Select Game Mode");
-        fstButton.setText("Player");
-        secButton.setText("Computer");
-    }
-
-    public void difficultyLevel(){
-        optionLabel.setText("Select Difficulty Level");
-        fstButton.setText("Easy");
-        secButton.setText("Hard");
+        btn2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                switch (clickCount) {
+                    case 1:
+                        isClassic = false;
+                        playerType();
+                        clickCount++;
+                        break;
+                    case 2:
+                        if (isClassic){
+                            isPlayer = false;
+                            label.setText("Select Difficulty Level");
+                            btn1.setText("Easy");
+                            btn2.setText("Hard");
+                            clickCount++;
+                        }
+                        else {
+                        currentPlayer = "O";
+                        startGame();
+                        break;
+                    }
+                        break;
+                    case 3:
+                        if (!isPlayer){
+                            isEasy = false;
+                            isNormal = false;
+                            playerType();
+                            clickCount++;
+                        }
+                        break;
+                    case 4:
+                        currentPlayer = "O";
+                        startGame();
+                        break;
+                }
+            }
+        });
     }
 
     public void playerType(){
-        optionLabel.setText("Select Player 1");
-        fstButton.setText("X");
-        secButton.setText("O");
+        label.setText("Select the Player");
+        btn1.setText("X");
+        btn2.setText("O");
+    }
+
+    public void startGame(){
+        ticTacToe.frame.remove(this);
+        ticTacToe.frame.validate();
+
+        if (!isClassic){
+            ticTacToe.frame.add(new ultimateGamePanel());
+        } else{
+            ticTacToe.frame.add(new classicGamePanel());
+        }
+
+        ticTacToe.frame.pack();
     }
 }
