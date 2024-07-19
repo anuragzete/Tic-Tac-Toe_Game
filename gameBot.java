@@ -2,21 +2,31 @@ package tic_tac_toe;
 
 import java.util.*;
 
-public class gameBot {
+/*
+Issues : implementation of minmax algo is pending and
+    output of easy bot isn't printing on cell
+*/
+
+public class gameBot extends normalGameLogic{
     //easy mode
     public static void easyMode() {
+        System.out.println("int easy mode");
         Random rand = new Random();
-        while (!normalGameLogic.botPlayed) {
+        while (!botPlayed) {
+            System.out.println("in while loop");
             int row = rand.nextInt(3);
             int col = rand.nextInt(3);
-            if (normalGameLogic.board[row][col].getText() != "") {
-                normalGameLogic.turns++;
-                normalGameLogic.board[row][col].setText(normalGameLogic.currentPlayer);
-                normalGameLogic.botPlayed = true;
-                normalGameLogic.checkWinner();
-                if (!normalGameLogic.gameOver) {
-                    normalGameLogic.currentPlayer = normalGameLogic.currentPlayer.equals(normalGameLogic.playerX) ? normalGameLogic.playerO : normalGameLogic.playerX;
-                    normalGameLogic.label.setText(normalGameLogic.currentPlayer + "'s turn");
+            if (!board[row][col].getText().isEmpty()) {
+                System.out.println("in while loop and cell.empty");
+                turns++;
+                board[row][col].setText(currentPlayer);
+                board[row][col].repaint();
+                botPlayed = true;
+                checkWinner();
+                if (!gameOver) {
+                    System.out.println("player change in easy mode" + currentPlayer);
+                    currentPlayer = currentPlayer.equals(playerX) ? playerO : playerX;
+                    label.setText(currentPlayer + "'s turn");
                 }
             }
         }
@@ -32,8 +42,8 @@ void bestmove(){
         for (int r = 0; r < ; r++) {
             for (int c = 0; c < ; c++) {
                 if (board[r][c] == 0){
-                    board[r][c] = plaver 2;
-                    score = minimac(board,0,false)
+                    board[r][c] = player 2;
+                    score = minimax(board,0,false)
 
                     board[r][c] =0;
                     if (score>bestscore){

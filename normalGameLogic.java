@@ -5,12 +5,7 @@ import java.awt.*;
 
 public class normalGameLogic extends classicGamePanel {
 
-    static boolean gameOver = false;
     static int turns = 0;
-    static String playerX = "X";
-    static String playerO = "O";
-    static String currentPlayer = homePanel.currentPlayer;
-    static JLabel label = ticTacToe.nameLabel;
     static boolean botPlayed = true;
 
     public static void gameStarted(JButton cell) {
@@ -18,6 +13,7 @@ public class normalGameLogic extends classicGamePanel {
             return;
         }
         if (cell.getText().isEmpty()) {
+            System.out.println("in cell.empty for player " + currentPlayer);
             turns++;
             cell.setText(currentPlayer);
             checkWinner();
@@ -26,6 +22,7 @@ public class normalGameLogic extends classicGamePanel {
                 label.setText(currentPlayer + "'s turn");
                 if (!homePanel.isPlayer) {
                     if (homePanel.isEasy) {
+                        System.out.println("before easymode is called");
                         botPlayed = !botPlayed;
                         gameBot.easyMode();
                     } else {
@@ -37,47 +34,12 @@ public class normalGameLogic extends classicGamePanel {
     }
 
 
-    public static String checkWinner() {
-        //horizontal check
-        for (int r = 0; r < 3; r++) {
-            if (board[r][0].getText().isEmpty()) continue;
-
-            if (board[r][0].getText().equals(board[r][1].getText()) && board[r][1].getText().equals(board[r][2].getText())) {
-                for (int i = 0; i < 3; i++) {
-                    setWinner(board[r][i]);
-                }
-            }
-        }
-
-        //vertical check
-        for (int c = 0; c < 3; c++) {
-            if (board[0][c].getText().isEmpty()) continue;
-
-            if (board[0][c].getText().equals(board[1][c].getText()) && board[1][c].getText().equals(board[2][c].getText())) {
-                for (int i = 0; i < 3; i++) {
-                    setWinner(board[i][c]);
-                }
-            }
-        }
-
-        //diagonal check
-        if (board[0][0].getText().equals(board[1][1].getText()) && board[1][1].getText().equals(board[2][2].getText()) && board[0][0].getText() != "") {
-            setWinner(board[0][0]);
-            setWinner(board[1][1]);
-            setWinner(board[2][2]);
-
-        }
-
-        //anti-diagonal check
-        if (board[0][2].getText().equals(board[1][1].getText()) && board[1][1].getText().equals(board[2][0].getText()) && board[0][2].getText() != "") {
-            setWinner(board[0][2]);
-            setWinner(board[1][1]);
-            setWinner(board[2][0]);
-
-        }
+    public static void checkWinner() {
+        //check winner
+        infiniteGameLogic.checkWinner();
 
         //tie check
-        if (turns == 10) {
+        if (turns == 9) {
             gameOver = true;
             label.setText("It's a Tie!");
             for (int r = 0; r < 3; r++) {
@@ -87,14 +49,5 @@ public class normalGameLogic extends classicGamePanel {
                 }
             }
         }
-        return currentPlayer;
-    }
-
-    public static void setWinner(JButton cell) {
-        cell.setBackground(Color.gray);
-        cell.setForeground(Color.green);
-        gameOver = true;
-        label.setText(currentPlayer + " is Winner!");
-        //new gameEndPanel();
     }
 }

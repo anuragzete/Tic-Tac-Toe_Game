@@ -14,7 +14,6 @@ public class ticTacToe {
         frame.setTitle("Tic Tac Toe");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setResizable(false);
-        frame.setLocationRelativeTo(null);
         frame.setLayout(new BorderLayout());
 
         nameLabel.setBackground(new Color(28, 28, 28));
@@ -28,6 +27,7 @@ public class ticTacToe {
 
         frame.add(new homePanel());
         frame.pack();
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 

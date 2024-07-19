@@ -2,7 +2,6 @@ package tic_tac_toe;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
 
 public class homePanel extends JPanel {
     static int clickCount = 1;
@@ -10,7 +9,7 @@ public class homePanel extends JPanel {
     static boolean isEasy;
     static boolean isPlayer;
     static boolean isNormal = true;
-    static String currentPlayer = "X";
+    static String currentPlayer ;
 
     JLabel label = new JLabel();
     JButton btn1 = new JButton();
@@ -54,74 +53,73 @@ public class homePanel extends JPanel {
         this.add(label, BorderLayout.NORTH);
         this.add(buttonHolder, BorderLayout.CENTER);
 
-        btn1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                switch (clickCount) {
-                    case 1:
-                        isClassic = true;
-                        label.setText("Select the Opponent");
-                        btn1.setText("Player");
-                        btn2.setText("Computer");
-                        clickCount++;
-                        break;
-                    case 2:
+        btn1.addActionListener(e -> {
+            switch (clickCount) {
+                case 1:
+                    isClassic = true;
+                    label.setText("Select the Opponent");
+                    btn1.setText("Player");
+                    btn2.setText("Computer");
+                    clickCount++;
+                    break;
+                case 2:
+                    if (isClassic){
                         isPlayer = true;
                         label.setText("Select Game Mode");
                         btn1.setText("Normal");
                         btn2.setText("Infinite");
                         clickCount++;
-                        break;
-                    case 3:
-                        isNormal = true;
-                        isEasy = true;
-                        playerType();
-                        clickCount++;
-                        break;
-                    case 4:
+                    }else {
                         currentPlayer = "X";
                         startGame();
-                        break;
-                }
+                    }
+                    break;
+                case 3:
+                    isNormal = true;
+                    isEasy = true;
+                    playerType();
+                    clickCount++;
+                    break;
+                case 4:
+                    currentPlayer = "X";
+                    startGame();
+                    break;
             }
         });
 
-        btn2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                switch (clickCount) {
-                    case 1:
-                        isClassic = false;
+        btn2.addActionListener(e -> {
+            switch (clickCount) {
+                case 1:
+                    isClassic = false;
+                    playerType();
+                    clickCount++;
+                    break;
+                case 2:
+                    if (isClassic){
+                        isPlayer = false;
+                        label.setText("Select Difficulty Level");
+                        btn1.setText("Easy");
+                        btn2.setText("Hard");
+                        clickCount++;
+                    }
+                    else {
+                    currentPlayer = "O";
+                    startGame();
+                    break;
+                }
+                    break;
+                case 3:
+                    if (!isPlayer){
+                        isEasy = false;
+                        isNormal = false;
                         playerType();
                         clickCount++;
-                        break;
-                    case 2:
-                        if (isClassic){
-                            isPlayer = false;
-                            label.setText("Select Difficulty Level");
-                            btn1.setText("Easy");
-                            btn2.setText("Hard");
-                            clickCount++;
-                        }
-                        else {
-                        currentPlayer = "O";
-                        startGame();
-                        break;
                     }
-                        break;
-                    case 3:
-                        if (!isPlayer){
-                            isEasy = false;
-                            isNormal = false;
-                            playerType();
-                            clickCount++;
-                        }
-                        break;
-                    case 4:
-                        currentPlayer = "O";
-                        startGame();
-                        break;
-                }
+                    break;
+                case 4:
+                    currentPlayer = "O";
+                    startGame();
+                    break;
             }
         });
     }
